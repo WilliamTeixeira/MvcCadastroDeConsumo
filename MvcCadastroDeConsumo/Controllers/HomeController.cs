@@ -15,21 +15,6 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             return View();
         }
-        #region IndexProduto
-        // GET: Home
-        public ActionResult IndexProduto()
-        {
-            return View(new ProdutoDAO().RetornarTodos());
-        }
-
-        #endregion
-
-        #region IndexConsumo
-        // GET: Home
-        public ActionResult IndexConsumo()
-        {
-            return View(new ConsumoDAO().RetornarTodos());
-        }
-        #endregion
+        
     }
 }
