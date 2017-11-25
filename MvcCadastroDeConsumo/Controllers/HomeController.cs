@@ -1,4 +1,5 @@
-﻿using MvcCadastroDeConsumo.Models;
+﻿using MvcCadastroDeConsumo.DAO;
+using MvcCadastroDeConsumo.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,27 +15,21 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             return View();
         }
-
+        #region IndexProduto
         // GET: Home
         public ActionResult IndexProduto()
         {
-            List<Produto> lista = new List<Produto>(); //teste
-            lista.Add(new Produto { Id = 1, Descricao = "Mamao", Estoque = 10 });
-            lista.Add(new Produto { Id = 1, Descricao = "Laranja", Estoque = 10 });
-            lista.Add(new Produto { Id = 1, Descricao = "Abacate", Estoque = 10 });
-
-            return View(lista);
+            return View(new ProdutoDAO().RetornarTodos());
         }
 
+        #endregion
+
+        #region IndexConsumo
         // GET: Home
         public ActionResult IndexConsumo()
         {
-            List<Consumo> lista = new List<Consumo>();
-            lista.Add(new Consumo { Id = 1, Descricao = "Consumo 1", ItensConsumo = new List<ItemConsumo>() });
-            lista.Add(new Consumo { Id = 1, Descricao = "Consumo 1", ItensConsumo = new List<ItemConsumo>() });
-            lista.Add(new Consumo { Id = 1, Descricao = "Consumo 1", ItensConsumo = new List<ItemConsumo>() });
-
-            return View(lista);
+            return View(new ConsumoDAO().RetornarTodos());
         }
+        #endregion
     }
 }
