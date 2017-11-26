@@ -1,4 +1,5 @@
 ﻿using MvcCadastroDeConsumo.DAO;
+using MvcCadastroDeConsumo.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,37 +11,35 @@ namespace MvcCadastroDeConsumo.Controllers
     public class ProdutoController : Controller
     {
         // GET: Produto
-        //public ActionResult Index()
-        //{
-        //    return View(new ProdutoDAO().RetornarTodos());
-        //}
-
         public ActionResult IndexProduto()
         {
             return View(new ProdutoDAO().RetornarTodos());
         }
 
-        // GET: Produto/Details/5
-        public ActionResult Details(int id)
+        // GET: Produto/DetailsProduto/5
+        public ActionResult DetailsProduto(int id)
         {
-            return View();
+            return View(new ProdutoDAO().RetornarPorId(id));
         }
 
         // GET: Produto/Create
-        public ActionResult Create()
+        public ActionResult CreateProduto()
         {
             return View();
         }
 
         // POST: Produto/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult CreateProduto(FormCollection collection)
         {
             try
             {
-                // TODO: Add insert logic here
+                Produto novoObj = new Produto();
+                UpdateModel(novoObj);
 
-                return RedirectToAction("Index");
+                new ProdutoDAO().Inserir(novoObj);
+
+                return RedirectToAction("IndexProduto");
             }
             catch
             {
@@ -49,20 +48,23 @@ namespace MvcCadastroDeConsumo.Controllers
         }
 
         // GET: Produto/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult EditProduto(int id)
         {
-            return View();
+            return View(new ProdutoDAO().RetornarPorId(id));
         }
 
         // POST: Produto/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult EditProduto(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
+                Produto novoObj = new Produto();
+                UpdateModel(novoObj);
 
-                return RedirectToAction("Index");
+                new ProdutoDAO().Alterar(novoObj);
+                
+                return RedirectToAction("IndexProduto");
             }
             catch
             {
@@ -71,20 +73,22 @@ namespace MvcCadastroDeConsumo.Controllers
         }
 
         // GET: Produto/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult DeleteProduto(int id)
         {
-            return View();
+            return View(new ProdutoDAO().RetornarPorId(id));
         }
 
         // POST: Produto/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult DeleteProduto(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                Produto novoObj = new ProdutoDAO().RetornarPorId(id);
 
-                return RedirectToAction("Index");
+                new ProdutoDAO().Excluir(novoObj);
+                
+                return RedirectToAction("IndexProduto");
             }
             catch
             {

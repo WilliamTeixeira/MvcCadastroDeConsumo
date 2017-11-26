@@ -46,7 +46,7 @@ namespace MvcCadastroDeConsumo.DAO
         {
             using (MySqlConnection conexao = new MySqlConnection(new Conexao().ConnString()))
             {
-                return conexao.Query<Consumo>($"select * from consumo where id=@id ").FirstOrDefault();
+                return conexao.Query<Consumo>($"select * from consumo where id=@id ", new { id = @id }).FirstOrDefault();
             }
         }
     }

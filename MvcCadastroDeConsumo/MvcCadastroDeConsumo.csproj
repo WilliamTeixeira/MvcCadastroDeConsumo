@@ -168,6 +168,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Produto\IndexProduto.cshtml" />
     <Content Include="Views\Consumo\IndexConsumo.cshtml" />
+    <Content Include="Views\Produto\DetailsProduto.cshtml" />
+    <Content Include="Views\Produto\CreateProduto.cshtml" />
+    <Content Include="Views\Produto\EditProduto.cshtml" />
+    <Content Include="Views\Produto\DeleteProduto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -17,9 +17,7 @@ namespace MvcCadastroDeConsumo.DAO
 
         public string ConnString()
         {
-            string conexao = $"SERVER={this.Server}; DATABASE={Database}; UID={Uid}; PASSWORD={Password};";
-
-            return conexao;
+            return $"SERVER={Server}; DATABASE={Database}; UID={Uid}; PASSWORD={Password};";
         }
 
     }

@@ -8,29 +8,29 @@ using System.Web;
 
 namespace MvcCadastroDeConsumo.DAO
 {
-    public class ProdutoDAO
+    public class ProdutoDAO : Conexao
     {
         public void Inserir(Produto obj)
         {
-            using (MySqlConnection conexao = new MySqlConnection(new Conexao().ConnString()))
+            using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
-                obj.Id = 1 + conexao.Query<int>("select max(id) from produto").FirstOrDefault();
+                //obj.Id = 1 + conexao.Query<int>("select max(id) from produto").FirstOrDefault();
                 
-                conexao.Execute($"insert into produto (id, descricao) values (@id, @descricao)", obj);
+                conexao.Execute($"insert into produto (id, descricao, estoque) values (@id, @descricao, @estoque)", obj);
             }
         }
 
         public void Alterar(Produto obj)
         {
-            using (MySqlConnection conexao = new MySqlConnection(new Conexao().ConnString()))
+            using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
-                conexao.Execute($"update produto set descricao=@descricao where id=@id", obj);
+                conexao.Execute($"update produto set descricao=@descricao, estoque=@estoque where id=@id", obj);
             }
         }
 
         public void Excluir(Produto obj)
         {
-            using (MySqlConnection conexao = new MySqlConnection(new Conexao().ConnString()))
+            using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
                 conexao.Execute($"delete from produto where id=@id", obj);
             }
@@ -38,7 +38,7 @@ namespace MvcCadastroDeConsumo.DAO
 
         public IEnumerable<Produto> RetornarTodos()
         {
-            using (MySqlConnection conexao = new MySqlConnection(new Conexao().ConnString()))
+            using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
                 return conexao.Query<Produto>($"select * from produto order by descricao");
             }
@@ -46,9 +46,10 @@ namespace MvcCadastroDeConsumo.DAO
 
         public Produto RetornarPorId(int id)
         {
-            using (MySqlConnection conexao = new MySqlConnection(new Conexao().ConnString()))
+            
+            using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
-                return conexao.Query<Produto>($"select * from produto where id=@id ").FirstOrDefault();
+                return conexao.Query<Produto>($"SELECT * FROM produto WHERE id = @id;", new { id=@id }).FirstOrDefault();
             }
         }
     }

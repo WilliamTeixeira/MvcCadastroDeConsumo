@@ -1,0 +1,48 @@
+﻿@model MvcCadastroDeConsumo.Models.Produto
+
+@{
+    ViewBag.Title = "DeleteProduto";
+}
+
+<h2>Excluir Produto</h2>
+
+<h3>Deseja excluir este Produto?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estoque)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estoque)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Excluir" class="btn btn-default" /> |
+            @Html.ActionLink("Retornar para Relação de Produtos", "IndexProduto") |
+            @Html.ActionLink("Retornar para Tela Inicial", "Index", "Home")
+        </div>
+    }
+</div>
