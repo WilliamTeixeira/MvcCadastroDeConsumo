@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,11 @@ namespace MvcCadastroDeConsumo.DAO
         public string ConnString()
         {
             return $"SERVER={Server}; DATABASE={Database}; UID={Uid}; PASSWORD={Password};";
+        }
+
+        public MySqlConnection RetornarConexao()
+        {
+            return new MySqlConnection(ConnString());
         }
 
     }

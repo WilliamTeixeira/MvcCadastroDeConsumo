@@ -1,5 +1,6 @@
 ﻿@model MvcCadastroDeConsumo.Models.Consumo
 
+
 @{
     ViewBag.Title = "DetailsConsumo";
 }
@@ -27,6 +28,41 @@
 
     </dl>
 </div>
+
+<div>
+    <hr />
+    <h4>Itens do Consumo</h4>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ItensConsumo.FirstOrDefault().Prod.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItensConsumo.FirstOrDefault().Quantidade)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.ItensConsumo)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prod.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantidade)
+                </td>
+                <td>
+                    @Html.ActionLink("Alterar", "EditItemConsumo", new { idConsumo = Model.Id, idproduto = item.Prod.Id }) |
+                    @Html.ActionLink("Consultar", "DetailsItemConsumo", new { idConsumo = Model.Id, idproduto = item.Prod.Id }) |
+                    @Html.ActionLink("Excluir", "DeleteItemConsumo", new { idConsumo = Model.Id, idproduto = item.Prod.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
 <p>
     @Html.ActionLink("Alterar", "EditConsumo", new { id = Model.Id }) |
     @Html.ActionLink("Retornar para Relação de Consumos", "IndexConsumo") |

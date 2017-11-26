@@ -8,7 +8,7 @@ using System.Web;
 
 namespace MvcCadastroDeConsumo.DAO
 {
-    public class ConsumoDAO : Conexao
+    public class ConsumoDapperDAO : Conexao
     {
         public void Inserir(Consumo obj)
         {

@@ -13,13 +13,14 @@ namespace MvcCadastroDeConsumo.Controllers
         // GET: Consumo
         public ActionResult IndexConsumo()
         {
-            return View(new ConsumoDAO().RetornarTodos());
+            return View(new ConsumoDapperDAO().RetornarTodos());
         }
 
         // GET: Consumo/Details/5
         public ActionResult DetailsConsumo(int id)
         {
-            return View(new ConsumoDAO().RetornarPorId(id));
+            return View(new ConsumoAdoDAO().RetornarPorId(id));
+
         }
 
         // GET: Consumo/Create
@@ -37,7 +38,7 @@ namespace MvcCadastroDeConsumo.Controllers
                 Consumo obj = new Consumo();
                 UpdateModel(obj);
 
-                new ConsumoDAO().Inserir(obj);
+                new ConsumoDapperDAO().Inserir(obj);
 
                 return RedirectToAction("IndexConsumo");
             }
@@ -50,7 +51,7 @@ namespace MvcCadastroDeConsumo.Controllers
         // GET: Consumo/Edit/5
         public ActionResult EditConsumo(int id)
         {
-            return View(new ConsumoDAO().RetornarPorId(id));
+            return View(new ConsumoAdoDAO().RetornarPorId(id));
         }
 
         // POST: Consumo/Edit/5
@@ -62,7 +63,7 @@ namespace MvcCadastroDeConsumo.Controllers
                 Consumo obj = new Consumo();
                 UpdateModel(obj);
 
-                new ConsumoDAO().Alterar(obj);
+                new ConsumoDapperDAO().Alterar(obj);
 
                 return RedirectToAction("IndexConsumo");
             }
@@ -75,7 +76,7 @@ namespace MvcCadastroDeConsumo.Controllers
         // GET: Consumo/Delete/5
         public ActionResult DeleteConsumo(int id)
         {
-            return View(new ConsumoDAO().RetornarPorId(id));
+            return View(new ConsumoDapperDAO().RetornarPorId(id));
         }
 
         // POST: Consumo/Delete/5
@@ -84,9 +85,9 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             try
             {
-                Consumo obj = new ConsumoDAO().RetornarPorId(id);
+                Consumo obj = new ConsumoDapperDAO().RetornarPorId(id);
 
-                new ConsumoDAO().Excluir(obj);
+                new ConsumoDapperDAO().Excluir(obj);
 
                 return RedirectToAction("IndexConsumo");
             }

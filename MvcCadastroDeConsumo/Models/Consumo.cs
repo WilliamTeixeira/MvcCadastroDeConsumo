@@ -18,5 +18,7 @@ namespace MvcCadastroDeConsumo.Models
             set { itensConsumo = value; }
         }
         
+        
     }
+    
 }
