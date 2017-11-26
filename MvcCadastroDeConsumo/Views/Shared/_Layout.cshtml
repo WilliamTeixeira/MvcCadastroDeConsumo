@@ -17,10 +17,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Programa de Consumo de Produtos", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    @* Fica bonito só quando a tela do browser está pequeno. 
+                    <li>@Html.ActionLink("Cadastro de Produtos", "IndexProduto", "Produto", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li>@Html.ActionLink("Cadastro de Consumo", "IndexConsumo", "Consumo", new { area = "" }, new { @class = "navbar-brand" })</li>*@
                 </ul>
             </div>
         </div>
@@ -30,7 +33,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application - wtx</p>
         </footer>
     </div>
 
