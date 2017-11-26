@@ -8,11 +8,11 @@ using System.Web;
 
 namespace MvcCadastroDeConsumo.DAO
 {
-    public class ConsumoDAO
+    public class ConsumoDAO : Conexao
     {
         public void Inserir(Consumo obj)
         {
-            using (MySqlConnection conexao = new MySqlConnection(new Conexao().ConnString()))
+            using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
                 conexao.Execute($"insert into consumo (descricao) values (@descricao)", obj);
             }
@@ -20,7 +20,7 @@ namespace MvcCadastroDeConsumo.DAO
 
         public void Alterar(Consumo obj)
         {
-            using (MySqlConnection conexao = new MySqlConnection(new Conexao().ConnString()))
+            using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
                 conexao.Execute($"update consumo set descricao=@descricao where id=@id", obj);
             }
@@ -28,7 +28,7 @@ namespace MvcCadastroDeConsumo.DAO
 
         public void Excluir(Consumo obj)
         {
-            using (MySqlConnection conexao = new MySqlConnection(new Conexao().ConnString()))
+            using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
                 conexao.Execute($"delete from Consumo where id=@id", obj);
             }
@@ -44,10 +44,24 @@ namespace MvcCadastroDeConsumo.DAO
 
         public Consumo RetornarPorId(int id)
         {
-            using (MySqlConnection conexao = new MySqlConnection(new Conexao().ConnString()))
+            using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
                 return conexao.Query<Consumo>($"select * from consumo where id=@id ", new { id = @id }).FirstOrDefault();
             }
         }
+
+        public IEnumerable<ItemConsumo> RetornarListaDeProdutos(int id)
+        {
+            using (MySqlConnection conexao = new MySqlConnection(ConnString()))
+            {
+                string sql =    "select itensconsumo.idproduto, produto.descricao, produto.estoque, itensconsumo.quantidade " +
+                                "from itensconsumo inner join produto on itensconsumo.idproduto = produto.id "+
+                                "where itensconsumo.idconsumo = @id"+
+                                "order by produto.descricao; ";
+
+                return conexao.Query<ItemConsumo>(sql, new { id = @id });
+            }
+        }
+
     }
 }

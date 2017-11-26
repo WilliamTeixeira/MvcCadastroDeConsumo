@@ -4,10 +4,10 @@
     ViewBag.Title = "IndexConsumo";
 }
 
-<h2>IndexConsumo</h2>
+<h2>Relação de Consumo</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Incluir", "CreateConsumo")
 </p>
 <table class="table">
     <tr>
@@ -23,14 +23,20 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Descricao)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Alterar", "EditConsumo", new { id = item.Id }) |
+            @Html.ActionLink("Consultar", "DetailsConsumo", new { id = item.Id }) |
+            @Html.ActionLink("Excluir", "DeleteConsumo", new { id = item.Id })
         </td>
     </tr>
 }
 
 </table>
+<p>
+    @Html.ActionLink("Retornar para Tela Inicial", "Index", "Home")
+</p>

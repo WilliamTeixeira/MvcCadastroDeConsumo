@@ -172,6 +172,10 @@
     <Content Include="Views\Produto\CreateProduto.cshtml" />
     <Content Include="Views\Produto\EditProduto.cshtml" />
     <Content Include="Views\Produto\DeleteProduto.cshtml" />
+    <Content Include="Views\Consumo\DetailsConsumo.cshtml" />
+    <Content Include="Views\Consumo\CreateConsumo.cshtml" />
+    <Content Include="Views\Consumo\EditConsumo.cshtml" />
+    <Content Include="Views\Consumo\DeleteConsumo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

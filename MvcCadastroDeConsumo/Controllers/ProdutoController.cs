@@ -34,10 +34,10 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             try
             {
-                Produto novoObj = new Produto();
-                UpdateModel(novoObj);
+                Produto obj = new Produto();
+                UpdateModel(obj);
 
-                new ProdutoDAO().Inserir(novoObj);
+                new ProdutoDAO().Inserir(obj);
 
                 return RedirectToAction("IndexProduto");
             }
@@ -59,10 +59,10 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             try
             {
-                Produto novoObj = new Produto();
-                UpdateModel(novoObj);
+                Produto obj = new Produto();
+                UpdateModel(obj);
 
-                new ProdutoDAO().Alterar(novoObj);
+                new ProdutoDAO().Alterar(obj);
                 
                 return RedirectToAction("IndexProduto");
             }
@@ -84,9 +84,9 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             try
             {
-                Produto novoObj = new ProdutoDAO().RetornarPorId(id);
+                Produto obj = new ProdutoDAO().RetornarPorId(id);
 
-                new ProdutoDAO().Excluir(novoObj);
+                new ProdutoDAO().Excluir(obj);
                 
                 return RedirectToAction("IndexProduto");
             }

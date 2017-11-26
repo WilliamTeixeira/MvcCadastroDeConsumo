@@ -1,0 +1,34 @@
+﻿@model MvcCadastroDeConsumo.Models.Consumo
+
+@{
+    ViewBag.Title = "DetailsConsumo";
+}
+
+<h2>Consulta Consumo</h2>
+
+<div>
+    <h4>Consumo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Alterar", "EditConsumo", new { id = Model.Id }) |
+    @Html.ActionLink("Retornar para Relação de Consumos", "IndexConsumo") |
+    @Html.ActionLink("Retornar para Tela Inicial", "Index", "Home")
+</p>

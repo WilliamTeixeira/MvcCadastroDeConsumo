@@ -1,4 +1,5 @@
 ﻿using MvcCadastroDeConsumo.DAO;
+using MvcCadastroDeConsumo.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,25 +15,29 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             return View(new ConsumoDAO().RetornarTodos());
         }
+
         // GET: Consumo/Details/5
-        public ActionResult Details(int id)
+        public ActionResult DetailsConsumo(int id)
         {
-            return View();
+            return View(new ConsumoDAO().RetornarPorId(id));
         }
 
         // GET: Consumo/Create
-        public ActionResult Create()
+        public ActionResult CreateConsumo()
         {
             return View();
         }
 
         // POST: Consumo/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult CreateConsumo(FormCollection collection)
         {
             try
             {
-                // TODO: Add insert logic here
+                Consumo obj = new Consumo();
+                UpdateModel(obj);
+
+                new ConsumoDAO().Inserir(obj);
 
                 return RedirectToAction("IndexConsumo");
             }
@@ -43,18 +48,21 @@ namespace MvcCadastroDeConsumo.Controllers
         }
 
         // GET: Consumo/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult EditConsumo(int id)
         {
-            return View();
+            return View(new ConsumoDAO().RetornarPorId(id));
         }
 
         // POST: Consumo/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult EditConsumo(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
+                Consumo obj = new Consumo();
+                UpdateModel(obj);
+
+                new ConsumoDAO().Alterar(obj);
 
                 return RedirectToAction("IndexConsumo");
             }
@@ -65,18 +73,20 @@ namespace MvcCadastroDeConsumo.Controllers
         }
 
         // GET: Consumo/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult DeleteConsumo(int id)
         {
-            return View();
+            return View(new ConsumoDAO().RetornarPorId(id));
         }
 
         // POST: Consumo/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult DeleteConsumo(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                Consumo obj = new ConsumoDAO().RetornarPorId(id);
+
+                new ConsumoDAO().Excluir(obj);
 
                 return RedirectToAction("IndexConsumo");
             }
