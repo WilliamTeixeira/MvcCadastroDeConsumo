@@ -6,6 +6,19 @@
 
 <h2>Relação de Produtos</h2>
 
+@if (TempData["mensagemErro"] != null)
+{
+    <hr />
+    <P class="field-error" style="color: red">
+        @TempData["mensagemErro"]
+    </P>
+    <script type="text/javascript" lang="pt-br">
+            window.onload = function () {
+                alert("@TempData["mensagemErro"]");
+            };
+    </script>
+}
+
 <p>
     @Html.ActionLink("Incluir", "CreateProduto")
 </p>
@@ -18,7 +31,10 @@
             @Html.DisplayNameFor(model => model.Descricao)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Estoque)
+            @Html.DisplayNameFor(model => model.EstoqueInicial)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstoqueAtual)
         </th>
         <th></th>
     </tr>
@@ -32,7 +48,10 @@
             @Html.DisplayFor(modelItem => item.Descricao)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Estoque)
+            @Html.DisplayFor(modelItem => item.EstoqueInicial)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstoqueAtual)
         </td>
         <td>
             @Html.ActionLink("Alterar", "EditProduto", new { id=item.Id }) |
@@ -46,3 +65,4 @@
 <p>
     @Html.ActionLink("Retornar para Tela Inicial", "Index", "Home")
 </p>
+

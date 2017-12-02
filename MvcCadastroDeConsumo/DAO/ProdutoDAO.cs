@@ -22,7 +22,7 @@ namespace MvcCadastroDeConsumo.DAO
         {
             using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
-                conexao.Execute($"update produto set descricao=@descricao, estoqueinicial=@estoqueinicial, @estoqueatual=estoqueatual where id=@id", obj);
+                conexao.Execute($"update produto set descricao=@descricao, estoqueinicial=@estoqueinicial, estoqueatual=@estoqueatual where id=@id", obj);
             }
         }
 
@@ -50,5 +50,19 @@ namespace MvcCadastroDeConsumo.DAO
                 return conexao.Query<Produto>($"SELECT * FROM produto WHERE id = @id;", new { id=@id }).FirstOrDefault();
             }
         }
+
+        public int RetornarUtilizacao(int id)
+        {
+            using (MySqlConnection conexao = new MySqlConnection(ConnString()))
+            {
+                string cont = conexao.Query<string>($"SELECT sum(idproduto) as cont FROM itensconsumo where idproduto = @id;", new { id = @id }).FirstOrDefault();
+                if (cont != "")
+                    return Convert.ToInt32(cont);
+                else
+                    return 0;
+                
+            }
+        }
+
     }
 }

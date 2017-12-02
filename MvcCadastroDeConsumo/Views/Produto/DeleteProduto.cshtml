@@ -27,13 +27,21 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Estoque)
+            @Html.DisplayNameFor(model => model.EstoqueInicial)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Estoque)
+            @Html.DisplayFor(model => model.EstoqueInicial)
         </dd>
 
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstoqueAtual)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstoqueAtual)
+        </dd>
     </dl>
 
     @using (Html.BeginForm()) {

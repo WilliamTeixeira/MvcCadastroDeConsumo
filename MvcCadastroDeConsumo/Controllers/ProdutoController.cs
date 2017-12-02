@@ -34,9 +34,12 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             try
             {
+                //Cria o produto e atualiza o estoque atual com o valor do estoque inicial
                 Produto obj = new Produto();
                 UpdateModel(obj);
+                obj.EstoqueAtual = obj.EstoqueInicial;
 
+                //Insere o produto na base
                 new ProdutoDAO().Inserir(obj);
 
                 return RedirectToAction("IndexProduto");
@@ -59,10 +62,16 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             try
             {
-                Produto obj = new Produto();
-                UpdateModel(obj);
+                // Cria o objeto e atualiza com os dados da model. O atributo EstoqueAtual não pode ser alterado pelo usuário
+                Produto objProd = new Produto();
+                UpdateModel(objProd);
 
-                new ProdutoDAO().Alterar(obj);
+                //Atualiza o objeto produto após ter alterado o estoque inicial
+                int totalConsumido = new ItemConsumoAdoDAO().RetornarTotalConsumidoProd(objProd.Id);
+                objProd.AtualizaEstoque(totalConsumido);
+                
+                //Altera o produto na base
+                new ProdutoDAO().Alterar(objProd);
                 
                 return RedirectToAction("IndexProduto");
             }
@@ -84,11 +93,27 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             try
             {
-                Produto obj = new ProdutoDAO().RetornarPorId(id);
+                //Cria um obj produto
+                Produto objProd = new ProdutoDAO().RetornarPorId(id);
 
-                new ProdutoDAO().Excluir(obj);
-                
-                return RedirectToAction("IndexProduto");
+                //Verifica se existe algum consumo utilizando este produto.
+                //Se existir apresenta uma mensagem. Senão, efetua a exclusão. 
+                int cont = new ProdutoDAO().RetornarUtilizacao(objProd.Id);
+                if (cont > 0)
+                {
+                    TempData["mensagemErro"] = String.Format("Alerta! " +
+                                                             "Existem pelomenos {0} itens de consumo relacionados ao produto {1}. " +
+                                                             "Exclua-os antes de excluir este produto.", cont, objProd.Descricao.ToUpper());
+                    
+                    return RedirectToAction("IndexProduto");
+                }
+                else
+                {
+                    new ProdutoDAO().Excluir(objProd);
+
+                    return RedirectToAction("IndexProduto");
+                }
+    
             }
             catch
             {

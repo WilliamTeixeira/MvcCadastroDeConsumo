@@ -69,7 +69,7 @@ namespace MvcCadastroDeConsumo.DAO
         public int RetornarTotalConsumidoProd(int idProduto)
         {
 
-            string sql = "SELECT sum(quantidade) as total FROM itensconsumo where idproduto @idproduto;";
+            string sql = "SELECT sum(quantidade) as total FROM itensconsumo where idproduto = @idproduto;";
 
             MySqlCommand cmd = new MySqlCommand(sql);
 
@@ -86,7 +86,10 @@ namespace MvcCadastroDeConsumo.DAO
 
         private int TotalConsumo(DataRow dr)
         {
-            return Convert.ToInt32(dr["total"]);
+            if (dr["total"].ToString() != "")
+                return Convert.ToInt32(dr["total"]);
+            else
+                return 0;
         }
 
         private ItemConsumo RetornarItemConsumo(DataRow dr)
