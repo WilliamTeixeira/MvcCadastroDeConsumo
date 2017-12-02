@@ -146,6 +146,7 @@
     <Compile Include="DAO\Conexao.cs" />
     <Compile Include="DAO\ConsumoAdoDAO.cs" />
     <Compile Include="DAO\ConsumoDapperDAO.cs" />
+    <Compile Include="DAO\ItemConsumoAdoDAO.cs" />
     <Compile Include="DAO\ProdutoDAO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -178,6 +179,10 @@
     <Content Include="Views\Consumo\CreateConsumo.cshtml" />
     <Content Include="Views\Consumo\EditConsumo.cshtml" />
     <Content Include="Views\Consumo\DeleteConsumo.cshtml" />
+    <Content Include="Views\Consumo\DetailsConsumoCreateItens.cshtml" />
+    <Content Include="Views\Consumo\CreateItemConsumo.cshtml" />
+    <Content Include="Views\Consumo\EditItemConsumo.cshtml" />
+    <Content Include="Views\Consumo\DeleteItemConsumo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

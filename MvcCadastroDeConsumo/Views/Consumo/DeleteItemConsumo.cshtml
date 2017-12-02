@@ -1,0 +1,50 @@
+﻿@model MvcCadastroDeConsumo.Models.ItemConsumo
+
+@{
+    ViewBag.Title = "DeleteItemConsumo";
+}
+
+<h2>Exclusão de Item Consumo</h2>
+
+<h3>Deseja excluir este Item?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdConsumo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdConsumo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Prod.Descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Prod.Descricao)
+            @Html.HiddenFor(model => model.Prod.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantidade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantidade)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Excluir" class="btn btn-default" /> |
+            @Html.ActionLink("Retornar para Relação de Consumos", "IndexConsumo") |
+            @Html.ActionLink("Retornar para Tela Inicial", "Index", "Home")
+            
+        </div>
+    }
+</div>

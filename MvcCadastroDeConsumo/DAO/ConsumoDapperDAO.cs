@@ -14,6 +14,7 @@ namespace MvcCadastroDeConsumo.DAO
         {
             using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
+
                 conexao.Execute($"insert into consumo (descricao) values (@descricao)", obj);
             }
         }
@@ -39,6 +40,15 @@ namespace MvcCadastroDeConsumo.DAO
             using (MySqlConnection conexao = new MySqlConnection(new Conexao().ConnString()))
             {
                 return conexao.Query<Consumo>($"select * from consumo order by descricao");
+            }
+        }
+
+        public int RetornarMaiorId()
+        {
+            using (MySqlConnection conexao = new MySqlConnection(new Conexao().ConnString()))
+            {
+                return conexao.QueryFirstOrDefault<int>("select max(id) from consumo");
+                
             }
         }
 

@@ -14,9 +14,7 @@ namespace MvcCadastroDeConsumo.DAO
         {
             using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
-                //obj.Id = 1 + conexao.Query<int>("select max(id) from produto").FirstOrDefault();
-                
-                conexao.Execute($"insert into produto (id, descricao, estoque) values (@id, @descricao, @estoque)", obj);
+                conexao.Execute($"insert into produto (id, descricao, estoqueinicial, estoqueatual) values (@id, @descricao, @estoqueinicial, @estoqueatual)", obj);
             }
         }
 
@@ -24,7 +22,7 @@ namespace MvcCadastroDeConsumo.DAO
         {
             using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
-                conexao.Execute($"update produto set descricao=@descricao, estoque=@estoque where id=@id", obj);
+                conexao.Execute($"update produto set descricao=@descricao, estoqueinicial=@estoqueinicial, @estoqueatual=estoqueatual where id=@id", obj);
             }
         }
 

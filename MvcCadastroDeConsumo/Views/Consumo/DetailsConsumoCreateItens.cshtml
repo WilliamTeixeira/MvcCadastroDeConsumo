@@ -1,11 +1,11 @@
 ﻿@model MvcCadastroDeConsumo.Models.Consumo
 
-
 @{
-    ViewBag.Title = "DetailsConsumo";
+    ViewBag.Title = "DetailsConsumoCreateItens";
 }
 
-<h2>Consulta Consumo</h2>
+
+<h2>Inclusão Itens Consumo</h2>
 
 <div>
     <h4>Consumo</h4>
@@ -44,18 +44,29 @@
         </tr>
         <tr>
         </tr>
-        @foreach (var item in Model.ItensConsumo)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Prod.Descricao)</td>   
-                <td>@Html.DisplayFor(modelItem => item.Quantidade)</td>
-                <td>
-                    @Html.ActionLink("Alterar", "EditItemConsumo", new { idConsumo = Model.Id, idProduto = item.Prod.Id }) |
-                    @Html.ActionLink("Excluir", "DeleteItemConsumo", new { idConsumo = Model.Id, idProduto = item.Prod.Id })
-                </td>
-            </tr>
+        <p>
+            @Html.ActionLink("Incluir Item Consumo", "CreateItemConsumo", new { idConsumo = Model.Id })
+        </p>
+        @{
+            if (Model.ItensConsumo.Count > 0)
+            {
+                foreach (var item in Model.ItensConsumo)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Prod.Descricao)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Quantidade)</td>
+                        <td>
+                            @Html.ActionLink("Alterar", "EditItemConsumo", new { idConsumo = Model.Id, idProduto = item.Prod.Id }) |
+                            @Html.ActionLink("Excluir", "DeleteItemConsumo", new { idConsumo = Model.Id, idProduto = item.Prod.Id })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <p style="color:red">Inclua um item!</p>
+            }
         }
-         
     </table>
 </div>
 

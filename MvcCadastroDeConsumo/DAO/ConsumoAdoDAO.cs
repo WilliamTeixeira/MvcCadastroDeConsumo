@@ -44,6 +44,11 @@ namespace MvcCadastroDeConsumo.DAO
             ExecutarComando(cmd);
         }
 
+        public void RetornarMaiorId()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Consumo> RetornarTodos()
         {
             List<Consumo> lista = new List<Consumo>();
@@ -83,7 +88,7 @@ namespace MvcCadastroDeConsumo.DAO
 
             return obj;
         }
-
+        #region ItensConsumo
         public List<ItemConsumo> RetornarItensConsumo(int idConsumo)
         {
             List<ItemConsumo> objs = new List<ItemConsumo>();
@@ -107,6 +112,9 @@ namespace MvcCadastroDeConsumo.DAO
             return objs;
         }
 
+
+        
+        #endregion
         private Consumo RetornarConsumoSemItens(DataRow dr)
         {
             Consumo obj = new Consumo();
@@ -126,5 +134,7 @@ namespace MvcCadastroDeConsumo.DAO
 
             return obj;
         }
+
+
     }
 }

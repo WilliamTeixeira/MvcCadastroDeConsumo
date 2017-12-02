@@ -48,8 +48,8 @@
                             @Html.DisplayFor(modelItem => item.Quantidade)
                         </td>
                         <td>
-                            @Html.ActionLink("Alterar", "EditItemConsumo", new { idConsumo = Model.Id, idproduto = item.Prod.Id }) |
-                            @Html.ActionLink("Excluir", "DeleteItemConsumo", new { idConsumo = Model.Id, idproduto = item.Prod.Id })
+                            @Html.ActionLink("Alterar", "EditItemConsumo", new { idConsumo = Model.Id, idProduto = item.Prod.Id }) |
+                            @Html.ActionLink("Excluir", "DeleteItemConsumo", new { idConsumo = Model.Id, idProduto = item.Prod.Id })
                         </td>
                     </tr>
                 }

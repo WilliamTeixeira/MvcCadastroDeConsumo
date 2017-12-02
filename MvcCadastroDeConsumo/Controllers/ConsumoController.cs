@@ -10,6 +10,7 @@ namespace MvcCadastroDeConsumo.Controllers
 {
     public class ConsumoController : Controller
     {
+        #region Consumo
         // GET: Consumo
         public ActionResult IndexConsumo()
         {
@@ -40,7 +41,11 @@ namespace MvcCadastroDeConsumo.Controllers
 
                 new ConsumoDapperDAO().Inserir(obj);
 
-                return RedirectToAction("IndexConsumo");
+                obj.Id = new ConsumoDapperDAO().RetornarMaiorId();
+
+                return View("DetailsConsumoCreateItens", new ConsumoAdoDAO().RetornarPorId(obj.Id));
+
+               
             }
             catch
             {
@@ -63,6 +68,7 @@ namespace MvcCadastroDeConsumo.Controllers
                 Consumo obj = new Consumo();
                 UpdateModel(obj);
 
+                //Como neste momento não altera-se o item consumo, não há tratamentos para o estoque.
                 new ConsumoDapperDAO().Alterar(obj);
 
                 return RedirectToAction("IndexConsumo");
@@ -76,7 +82,7 @@ namespace MvcCadastroDeConsumo.Controllers
         // GET: Consumo/Delete/5
         public ActionResult DeleteConsumo(int id)
         {
-            return View(new ConsumoDapperDAO().RetornarPorId(id));
+            return View(new ConsumoAdoDAO().RetornarPorId(id));
         }
 
         // POST: Consumo/Delete/5
@@ -85,9 +91,25 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             try
             {
-                Consumo obj = new ConsumoDapperDAO().RetornarPorId(id);
+                //Retornar o consumo
+                Consumo obj = new ConsumoAdoDAO().RetornarPorId(id);
 
-                new ConsumoDapperDAO().Excluir(obj);
+                //Verifica se existem itens de consumo, deleta se existir e atualiza o estoque atual de cada produto
+                if (obj.ItensConsumo.Count != 0)
+                    foreach (var objItemConsumo in obj.ItensConsumo)
+                    {
+                        //Exclui o item
+                        new ItemConsumoAdoDAO().ExcluirItemConsumo(objItemConsumo);
+
+                        //Atualiza produto após ter excluido o consumo
+                        int totalConsumido = new ItemConsumoAdoDAO().RetornarTotalConsumidoProd(objItemConsumo.Prod.Id);
+                        objItemConsumo.Prod.AtualizaEstoque(totalConsumido);
+                        new ProdutoDAO().Alterar(objItemConsumo.Prod);
+                    }
+                
+                //Exclui o consumo apos excluir os itens e atualizar o produto
+                new ConsumoAdoDAO().Excluir(obj);
+
 
                 return RedirectToAction("IndexConsumo");
             }
@@ -96,5 +118,125 @@ namespace MvcCadastroDeConsumo.Controllers
                 return View();
             }
         }
+        #endregion
+
+        #region ItensConsumo
+
+        // GET: Consumo/Details/5
+        public ActionResult DetailsConsumoCreateItens(int id)
+        {
+            return View(new ConsumoAdoDAO().RetornarPorId(id));
+
+        }
+
+        // GET: Consumo/CreateItemConsumo
+        public ActionResult CreateItemConsumo(int idConsumo)
+        {
+            ViewBag.ListaDropProdutos = new SelectList(new ProdutoDAO().RetornarTodos(),"Id", "Descricao");
+
+            return View(new ItemConsumo(idConsumo));
+        }
+
+        // POST: Consumo/CreateItemConsumo
+        [HttpPost]
+        public ActionResult CreateItemConsumo(FormCollection collection)
+        {
+            try
+            {
+                //Pega o id do item selecionado no dropdownlist
+                //o indice 1 da collection é o item selecionado 
+                int idProduto = Convert.ToInt32(collection[1].ToString()); 
+                
+                //Retornar o produto
+                Produto objProd = new ProdutoDAO().RetornarPorId(idProduto);
+
+                //Cria e atualiza o Item de Consumo
+                ItemConsumo objItemConsumo = new ItemConsumo();
+                UpdateModel(objItemConsumo);
+                objItemConsumo.Prod = objProd;
+                
+                //Insere o item consumo na base
+                new ItemConsumoAdoDAO().InserirItemConsumo(objItemConsumo);
+
+                //Atualiza o produto após ter inserido o consumo
+                int totalConsumido = new ItemConsumoAdoDAO().RetornarTotalConsumidoProd(objProd.Id);
+                objProd.AtualizaEstoque(totalConsumido);
+                new ProdutoDAO().Alterar(objProd);
+
+                return View("DetailsConsumoCreateItens", new ConsumoAdoDAO().RetornarPorId(objItemConsumo.IdConsumo));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Consumo/EditItemConsumo
+        public ActionResult EditItemConsumo(int idConsumo, int idProduto)
+        {
+            return View(new ItemConsumoAdoDAO().RetornarItemConsumo(idConsumo, idProduto));
+        }
+
+        // POST: Consumo/EditItemConsumo
+        [HttpPost]
+        public ActionResult EditItemConsumo(FormCollection collection)
+        {
+            try
+            {
+                //Cria e atualiza o itemConsumo a ser editado
+                ItemConsumo objItemConsumo = new ItemConsumo();
+                UpdateModel(objItemConsumo);
+                
+                //Altera o item consumo na base
+                new ItemConsumoAdoDAO().AlterarItemConsumo(objItemConsumo);
+
+                //Atualiza o produto após ter alterado o item de consumo
+                int totalConsumido = new ItemConsumoAdoDAO().RetornarTotalConsumidoProd(objItemConsumo.Prod.Id);
+                Produto objProd = new ProdutoDAO().RetornarPorId(objItemConsumo.Prod.Id);
+                objProd.AtualizaEstoque(totalConsumido);
+                new ProdutoDAO().Alterar(objProd);
+
+
+                return View("DetailsConsumoCreateItens", new ConsumoAdoDAO().RetornarPorId(objItemConsumo.IdConsumo));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Consumo/DeleteItemConsumo
+        public ActionResult DeleteItemConsumo(int idConsumo, int idProduto)
+        {
+            return View(new ItemConsumoAdoDAO().RetornarItemConsumo(idConsumo, idProduto));
+        }
+
+        // POST: Consumo/DeleteItemConsumo
+        [HttpPost]
+        public ActionResult DeleteItemConsumo(int idConsumo, int idProduto, FormCollection collection)
+        {
+            try
+            {
+                //Cria obj Item Consumo
+                ItemConsumo objItemConsumo = new ItemConsumoAdoDAO().RetornarItemConsumo(idConsumo, idProduto);
+
+                //Excluir item consumo
+                new ItemConsumoAdoDAO().ExcluirItemConsumo(objItemConsumo);
+
+                //Atualiza produto após ter excluido o item de consumo
+                int totalConsumido = new ItemConsumoAdoDAO().RetornarTotalConsumidoProd(idProduto);
+                Produto objProd = new ProdutoDAO().RetornarPorId(idProduto);
+                objProd.AtualizaEstoque(totalConsumido);
+                new ProdutoDAO().Alterar(objProd);
+                                
+                return View("DetailsConsumoCreateItens", new ConsumoAdoDAO().RetornarPorId(objItemConsumo.IdConsumo));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        #endregion
     }
 }
