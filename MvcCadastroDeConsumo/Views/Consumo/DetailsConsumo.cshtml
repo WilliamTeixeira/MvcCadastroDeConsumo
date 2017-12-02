@@ -42,20 +42,30 @@
             </th>
             <th></th>
         </tr>
-        <tr>
-        </tr>
-        @foreach (var item in Model.ItensConsumo)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Prod.Descricao)</td>   
-                <td>@Html.DisplayFor(modelItem => item.Quantidade)</td>
-                <td>
-                    @Html.ActionLink("Alterar", "EditItemConsumo", new { idConsumo = Model.Id, idProduto = item.Prod.Id }) |
-                    @Html.ActionLink("Excluir", "DeleteItemConsumo", new { idConsumo = Model.Id, idProduto = item.Prod.Id })
-                </td>
-            </tr>
+        <tr></tr>
+        <p>
+            @Html.ActionLink("Incluir Item Consumo", "CreateItemConsumo", new { idConsumo = Model.Id })
+        </p>
+        @{
+            if (Model.ItensConsumo.Count > 0)
+            {
+                foreach (var item in Model.ItensConsumo)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Prod.Descricao)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Quantidade)</td>
+                        <td>
+                            @Html.ActionLink("Alterar", "EditItemConsumo", new { idConsumo = Model.Id, idProduto = item.Prod.Id }) |
+                            @Html.ActionLink("Excluir", "DeleteItemConsumo", new { idConsumo = Model.Id, idProduto = item.Prod.Id })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <p style="color:red">Inclua um item!</p>
+            }
         }
-         
     </table>
 </div>
 

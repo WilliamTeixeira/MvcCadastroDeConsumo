@@ -95,7 +95,7 @@ namespace MvcCadastroDeConsumo.Controllers
                 Consumo obj = new ConsumoAdoDAO().RetornarPorId(id);
 
                 //Verifica se existem itens de consumo, deleta se existir e atualiza o estoque atual de cada produto
-                if (obj.ItensConsumo.Count != 0)
+                if (obj.ItensConsumo.Count > 0)
                     foreach (var objItemConsumo in obj.ItensConsumo)
                     {
                         //Exclui o item

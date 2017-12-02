@@ -93,7 +93,7 @@ namespace MvcCadastroDeConsumo.DAO
         {
             List<ItemConsumo> objs = new List<ItemConsumo>();
 
-            string sql =    "select itensconsumo.idproduto, itensconsumo.quantidade " +
+            string sql = "select itensconsumo.idproduto, itensconsumo.quantidade, itensconsumo.idconsumo " +
                             "from itensconsumo inner join produto on itensconsumo.idproduto = produto.id " +
                             "where itensconsumo.idconsumo = @id " +
                             "order by produto.descricao; ";
@@ -128,7 +128,8 @@ namespace MvcCadastroDeConsumo.DAO
         {
             ItemConsumo obj = new ItemConsumo();
 
-            obj.Quantidade= Convert.ToInt32(dr["quantidade"]);
+            obj.IdConsumo = Convert.ToInt32(dr["idconsumo"]);
+            obj.Quantidade = Convert.ToInt32(dr["quantidade"]);
 
             obj.Prod = new ProdutoDAO().RetornarPorId(Convert.ToInt32(dr["idproduto"]));
 
