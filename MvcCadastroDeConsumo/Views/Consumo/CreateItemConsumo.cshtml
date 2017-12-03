@@ -5,6 +5,18 @@
 }
 
 <h2>Inclusão Item Consumo</h2>
+@if (TempData["msgErroItemKey"] != null)
+{
+    <hr />
+    <P class="field-error" style="color: red">
+        @TempData["msgErroItemKey"]
+    </P>
+    <script type="text/javascript" charset="utf-8" lang="pt-br">
+            window.onload = function () {
+                alert("@TempData["msgErroItemKey"]");
+            };
+    </script>
+}
 
 @using (Html.BeginForm()) 
 {

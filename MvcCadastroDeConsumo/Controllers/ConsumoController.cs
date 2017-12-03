@@ -143,9 +143,8 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             try
             {
-                //Pega o id do item selecionado no dropdownlist
-                //o indice 1 da collection é o item selecionado 
-                int idProduto = Convert.ToInt32(collection[1].ToString()); 
+                //Pega o id do item selecionado no dropdownlist: o indice "ListaDropProdutos" da collection é o item selecionado 
+                int idProduto = Convert.ToInt32(collection["ListaDropProdutos"].ToString()); 
                 
                 //Retornar o produto
                 Produto objProd = new ProdutoDAO().RetornarPorId(idProduto);
@@ -155,15 +154,28 @@ namespace MvcCadastroDeConsumo.Controllers
                 UpdateModel(objItemConsumo);
                 objItemConsumo.Prod = objProd;
                 
-                //Insere o item consumo na base
-                new ItemConsumoAdoDAO().InserirItemConsumo(objItemConsumo);
+                /* Verifica se a chave IdConsumo + IdProduto já existe na relação de itens de consumo da base
+                 * -> Se não existir, incluir o item de consumo. -> Se existir, apresenta uma mensagem de erro.
+                 */
+                if (new ItemConsumoAdoDAO().RetornarItemConsumo(objItemConsumo.IdConsumo,objItemConsumo.Prod.Id) == null)
+                {
+                    //Insere o item consumo na base
+                    new ItemConsumoAdoDAO().InserirItemConsumo(objItemConsumo);
 
-                //Atualiza o produto após ter inserido o consumo
-                int totalConsumido = new ItemConsumoAdoDAO().RetornarTotalConsumidoProd(objProd.Id);
-                objProd.AtualizaEstoque(totalConsumido);
-                new ProdutoDAO().Alterar(objProd);
+                    //Atualiza o produto após ter inserido o consumo
+                    int totalConsumido = new ItemConsumoAdoDAO().RetornarTotalConsumidoProd(objProd.Id);
+                    objProd.AtualizaEstoque(totalConsumido);
+                    new ProdutoDAO().Alterar(objProd);
 
-                return View("DetailsConsumoCreateItens", new ConsumoAdoDAO().RetornarPorId(objItemConsumo.IdConsumo));
+                    return View("DetailsConsumoCreateItens", new ConsumoAdoDAO().RetornarPorId(objItemConsumo.IdConsumo));
+                }
+                else
+                {
+                    TempData["msgErroItemKey"] = String.Format("Produto já utilizado para este consumo. Escolha outro Produto.");
+                    ViewBag.ListaDropProdutos = new SelectList(new ProdutoDAO().RetornarTodos(), "Id", "Descricao", idProduto);
+                    return View("CreateItemConsumo", objItemConsumo);
+                }
+                
             }
             catch
             {
@@ -185,7 +197,7 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             try
             {
-                //Pega o id do item selecionado no dropdownlist:  O indice 1 da collection é o item selecionado 
+                //Pega o id do item selecionado no dropdownlist:  O indice "ListaDropProdutos" da collection é o item selecionado 
                 int idProduto = Convert.ToInt32(collection["ListaDropProdutos"].ToString());
 
                 //Retornar o produto selecionado
@@ -199,6 +211,12 @@ namespace MvcCadastroDeConsumo.Controllers
                 {
                     //Se o produto não foi alterado: Apenas atualizo a quantidade
                     new ItemConsumoAdoDAO().AlterarItemConsumo(objItemConsumo);
+
+                    //Atualiza produto 
+                    int totalConsumido = new ItemConsumoAdoDAO().RetornarTotalConsumidoProd(objItemConsumo.Prod.Id);
+                    Produto objProd = new ProdutoDAO().RetornarPorId(objItemConsumo.Prod.Id);
+                    objProd.AtualizaEstoque(totalConsumido);
+                    new ProdutoDAO().Alterar(objProd);
                 }
                 else
                 {
