@@ -55,7 +55,7 @@ namespace MvcCadastroDeConsumo.DAO
         {
             using (MySqlConnection conexao = new MySqlConnection(ConnString()))
             {
-                string cont = conexao.Query<string>($"SELECT sum(idproduto) as cont FROM itensconsumo where idproduto = @id;", new { id = @id }).FirstOrDefault();
+                string cont = conexao.Query<string>($"SELECT count(idproduto) as cont FROM itensconsumo where idproduto = @id;", new { id = @id }).FirstOrDefault();
                 if (cont != "")
                     return Convert.ToInt32(cont);
                 else

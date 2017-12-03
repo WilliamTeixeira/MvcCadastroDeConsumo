@@ -12,20 +12,10 @@ namespace MvcCadastroDeConsumo.Models
         public int EstoqueInicial { get; set; } // Inicial
         public int EstoqueAtual { get; set; } // Atual
 
-        //O valor deve ser retornado do total de consumo presente no banco para este produto
+        //O valor totalConsumido deve ser retornado do total de consumo presente no banco para este produto
         public void AtualizaEstoque(int totalConsumido)
         {
             EstoqueAtual = EstoqueInicial - totalConsumido;
-        }
-
-        public void SubtraiEstoque(ItemConsumo item)
-        {
-            EstoqueAtual -= item.Quantidade;
-        }
-
-        public void AdicionaEstoque(ItemConsumo item)
-        {
-            EstoqueInicial += item.Quantidade;
         }
     }
 }

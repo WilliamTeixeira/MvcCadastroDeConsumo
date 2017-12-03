@@ -40,9 +40,18 @@ namespace MvcCadastroDeConsumo.Controllers
                 obj.EstoqueAtual = obj.EstoqueInicial;
 
                 //Insere o produto na base
-                new ProdutoDAO().Inserir(obj);
+                if(new ProdutoDAO().RetornarPorId(obj.Id) == null)
+                {
+                    new ProdutoDAO().Inserir(obj);
+                    return RedirectToAction("IndexProduto");
+                }
+                else
+                {
+                    TempData["msg"] = String.Format("Id indisponivel. Escolha outro Id.");
+                    return View("CreateProduto",obj);
+                }
 
-                return RedirectToAction("IndexProduto");
+                
             }
             catch
             {

@@ -5,6 +5,18 @@
 }
 
 <h2>Inclusão de Produto</h2>
+@if (TempData["msg"] != null)
+{
+    <hr />
+    <P class="field-error" style="color: red">
+        @TempData["msg"]
+    </P>
+    <script type="text/javascript" lang="pt-br">
+            window.onload = function () {
+                alert("@TempData["msg"]");
+            };
+    </script>
+}
 
 @using (Html.BeginForm()) 
 {

@@ -35,6 +35,20 @@ namespace MvcCadastroDeConsumo.DAO
             ExecutarComando(cmd);
         }
 
+        //Alterando inclusive o produto
+        public void AlterarItemConsumo(Produto objProdAntigo, ItemConsumo objNovo)
+        {
+            string sql = $"update itensconsumo set idproduto=@idprodutoNovo, quantidade = @quantidade where idconsumo=@idconsumo and idproduto=@idproduto;";
+            MySqlCommand cmd = new MySqlCommand(sql);
+
+            cmd.Parameters.Add(new MySqlParameter("@idconsumo", objNovo.IdConsumo));
+            cmd.Parameters.Add(new MySqlParameter("@idproduto", objProdAntigo.Id));
+            cmd.Parameters.Add(new MySqlParameter("@quantidade", objNovo.Quantidade));
+            cmd.Parameters.Add(new MySqlParameter("@idprodutoNovo", objNovo.Prod.Id));
+
+            ExecutarComando(cmd);
+        }
+
         public void ExcluirItemConsumo(ItemConsumo obj)
         {
             string sql = $"delete from itensconsumo where idconsumo=@idconsumo and idproduto=@idproduto;";

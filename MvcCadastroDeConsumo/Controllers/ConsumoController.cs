@@ -174,6 +174,8 @@ namespace MvcCadastroDeConsumo.Controllers
         // GET: Consumo/EditItemConsumo
         public ActionResult EditItemConsumo(int idConsumo, int idProduto)
         {
+            ViewBag.ListaDropProdutos = new SelectList(new ProdutoDAO().RetornarTodos(), "Id", "Descricao",idProduto);
+
             return View(new ItemConsumoAdoDAO().RetornarItemConsumo(idConsumo, idProduto));
         }
 
@@ -183,19 +185,42 @@ namespace MvcCadastroDeConsumo.Controllers
         {
             try
             {
+                //Pega o id do item selecionado no dropdownlist:  O indice 1 da collection é o item selecionado 
+                int idProduto = Convert.ToInt32(collection["ListaDropProdutos"].ToString());
+
+                //Retornar o produto selecionado
+                Produto objNovoProd = new ProdutoDAO().RetornarPorId(idProduto);
+                
                 //Cria e atualiza o itemConsumo a ser editado
                 ItemConsumo objItemConsumo = new ItemConsumo();
                 UpdateModel(objItemConsumo);
-                
-                //Altera o item consumo na base
-                new ItemConsumoAdoDAO().AlterarItemConsumo(objItemConsumo);
 
-                //Atualiza o produto após ter alterado o item de consumo
-                int totalConsumido = new ItemConsumoAdoDAO().RetornarTotalConsumidoProd(objItemConsumo.Prod.Id);
-                Produto objProd = new ProdutoDAO().RetornarPorId(objItemConsumo.Prod.Id);
-                objProd.AtualizaEstoque(totalConsumido);
-                new ProdutoDAO().Alterar(objProd);
+                if (objNovoProd.Id == objItemConsumo.Prod.Id)
+                {
+                    //Se o produto não foi alterado: Apenas atualizo a quantidade
+                    new ItemConsumoAdoDAO().AlterarItemConsumo(objItemConsumo);
+                }
+                else
+                {
+                    //Guardadno o produto antigo    
+                    Produto prodAntigo = new ProdutoDAO().RetornarPorId(objItemConsumo.Prod.Id);
 
+                    //Atualizando o item com o novo produto
+                    objItemConsumo.Prod = objNovoProd;
+
+                    //Atualizo o item consumo na base
+                    new ItemConsumoAdoDAO().AlterarItemConsumo(prodAntigo, objItemConsumo);
+
+                    //Atualizo o novo produto
+                    int totalConsumidoNovoProd = new ItemConsumoAdoDAO().RetornarTotalConsumidoProd(objItemConsumo.Prod.Id);
+                    objNovoProd.AtualizaEstoque(totalConsumidoNovoProd);
+                    new ProdutoDAO().Alterar(objNovoProd);
+
+                    //Atualizo o produto antigo
+                    int totalConsumidoAntigoProd = new ItemConsumoAdoDAO().RetornarTotalConsumidoProd(prodAntigo.Id);
+                    prodAntigo.AtualizaEstoque(totalConsumidoAntigoProd);
+                    new ProdutoDAO().Alterar(prodAntigo);
+                }
 
                 return View("DetailsConsumoCreateItens", new ConsumoAdoDAO().RetornarPorId(objItemConsumo.IdConsumo));
             }
