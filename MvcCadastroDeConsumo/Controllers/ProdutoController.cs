@@ -47,7 +47,7 @@ namespace MvcCadastroDeConsumo.Controllers
                 }
                 else
                 {
-                    TempData["msg"] = String.Format("Id indisponivel. Escolha outro Id.");
+                    TempData["msg"] = String.Format("Id indisponível. Escolha outro Id.");
                     return View("CreateProduto",obj);
                 }
 
